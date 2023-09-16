@@ -1,6 +1,7 @@
-##############################################################################
+##################################################################################
 #
 # Computer Project #6
+#
 # ALGORTIHM
 #
 # This project uses a total of 10 functions and then a main() function
@@ -22,7 +23,7 @@
 # display_books() used for displaying the list of books desired by the user  
 # main() function prompts the user to choose from a group of options. dependding 
 # on what option was chosen, the code outputs the desired result. 
-# #############################################################################
+####################################################################################
 
 
 import csv
@@ -185,7 +186,8 @@ def display_books(list_of_tuples):
                     continue
 
 def get_option():
-    """Docstring"""
+    """This function asks for a valid option. It keeps prompting the user until
+    a valid option is entered"""
     choice = input(MENU)
     if choice.isdigit() and 1 <= int(choice) <= 4:
         return int(choice)
@@ -200,6 +202,8 @@ def main():
     criterion = 0
     valid_values = []
     value = ""
+    rating = 0
+    page_number = 0
     
     while True:
         choice = get_option()   
@@ -240,37 +244,36 @@ def main():
             criterion = 0
             value = ""
 
-        if choice == 3:
-            category = input("\nEnter the desired category: ").lower()
+        elif choice == 3:
+            # Get user input for category, rating, page number, sorting format, and keywords
+            category = input("\nEnter the desired category: ")
+            rating = input("\nEnter the desired rating: ")
+            page_number = input("\nEnter the desired page number: ")
+            sorting_order = input("\nEnter 1 for A-Z sorting, and 2 for Z-A sorting: ")
+            keywords = input("\nEnter keywords (space separated): ").split()
 
-            while True:
-                rating_str = input("\nEnter the desired rating: ")
+            # Convert rating and page_number to expected data types (float and int, respectively)
+            while not isinstance(rating, float):
                 try:
-                    rating = float(rating_str)
-                except:
-                    print("\nInvalid input")
-                    continue
-                break
+                    rating = float(rating)
+                except ValueError:
+                    rating = input("\nEnter the desired rating (must be a number): ")
             
-            while True:
-                page_number_str = input("\nEnter the desired page number: ")
+            while not isinstance(page_number, int):
                 try:
-                    page_number = int(page_number_str)
-                except:
-                    print("\nInvalid input")
-                    continue
-                break
-            
-            a_z = (input("\nEnter 1 for A-Z sorting, and 2 for Z-A sorting: "))
-            if int(a_z) == 1:
-                a_z = True
+                    page_number = int(page_number)
+                except ValueError:
+                    page_number = input("\nEnter the desired page number (must be a whole number): ")
+
+            # Determine sorting order based on user input
+            if sorting_order == '1':
+                ascending_order = True
             else:
-                a_z = False
-                
-            keywords = input("\nEnter keywords (space separated): ")
-    
-            recommended_list = recommend_books(list_of_tuples, keywords, category, rating, page_number, a_z)
-            display_books(recommended_list[:30])
+                ascending_order = False
+
+            # Call the recommend_books function with user inputs and display the result
+            recommended_books = recommend_books(list_of_tuples, keywords, category, rating, page_number, ascending_order)
+            display_books(recommended_books)
 
 
 # DO NOT CHANGE THESE TWO LINES
@@ -280,3 +283,4 @@ def main():
 # run alone, 'main' will execute.
 if __name__ == "__main__":
     main()
+

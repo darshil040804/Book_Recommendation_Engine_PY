@@ -1,6 +1,7 @@
 ##############################################################################
 #
-# Computer Project #6
+# Book Recoommendation and Search Engine 
+#
 # ALGORTIHM
 #
 # This project uses a total of 10 functions and then a main() function

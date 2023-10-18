@@ -1,4 +1,5 @@
 import pandas as pd
+import csv
 
 MENU = '''
 Welcome to the Book Recommendation Engine
